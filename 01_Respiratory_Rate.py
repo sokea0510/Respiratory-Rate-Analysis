@@ -86,12 +86,20 @@ print(f"Peak of PSD: {peaks1}")
 print(f"Peak of Frequency of Power Spectral Density: {peak_frequencies}")
 
 
-# Calculate the time intervals between the peaks to estimate the respiratory rate:
-intervals = np.diff(peaks1) / fs
-rr = 60 / np.mean(intervals)
+# :Calculate the time intervals between the peaks to estimate the respiratory rate
+# intervals = np.diff(peaks1) / fs
+# rr = 60 / np.mean(intervals)
+intervals = np.diff(peaks1)
+rr = 60 / intervals
 print(f"Time intervals: {intervals}")
 print(f"Estimate the Respiratory Rate: {rr}")
 
+
+# Calculate median and IQR of respiratory rates
+median_rate = np.median(rr)
+iqr = np.percentile(rr, 75) - np.percentile(rr, 25)
+print(f"Median of RR: {median_rate}")
+print(f"Interquartilie Range of : {iqr}")
 # # generate a sound spectrogram:
 # # Set the parameters for the spectrogram
 # overlap = 0.5
@@ -207,10 +215,11 @@ ax.legend()
 # ax.set_xlabel('Time (samples)')
 # ax.set_ylabel('Amplitude')
 # ax.legend()
-
-# fig, ax = plt.subplots()
-# ax.plot(rr, label='Respiratory Rate')
-# ax.set_xlabel('Time (samples)')
-# ax.set_ylabel('Respiration Rate (breaths per minute)')
-# ax.legend()
+# 11. Intervals between the peaks to estimate the respiratory rate
+fig, ax = plt.subplots()
+ax.plot(rr, label='Respiratory Rate')
+ax.set_xlabel('Time (samples)')
+ax.set_ylabel('Respiration Rate (breaths per minute)')
+ax.set_title('11. Intervals Between the Peaks to Estimate the RR')
+ax.legend()
 plt.show()
